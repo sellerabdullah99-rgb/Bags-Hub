@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Log In — Bags Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="header-inner">
+    <a href="index.html" class="logo">BAGS HUB</a>
+    <nav class="main-nav"><ul></ul></nav>
+    <div class="header-icons"></div>
+  </div>
+</header>
+
+<div class="wrap"><div class="breadcrumb"><a href="index.html">Home</a> / Log In</div></div>
+
+<div class="wrap" style="max-width:460px; padding-top:20px; padding-bottom:110px;">
+  <div class="page-hero" style="padding:16px 0 26px;">
+    <h1 style="font-size:32px;">Welcome Back</h1>
+  </div>
+
+  <div class="form-group"><label>Email</label><input type="email" id="lEmail" placeholder="you@example.com"></div>
+  <div class="form-group"><label>Password</label><input type="password" id="lPassword" placeholder="Your password"></div>
+
+  <button class="btn btn-dark" style="width:100%; justify-content:center;" onclick="doLogin()">Log In</button>
+  <div class="form-msg" id="loginMsg"></div>
+
+  <p style="text-align:center; margin-top:22px; font-size:13.5px; color:var(--ink-soft);">
+    New to Bags Hub? <a href="register.html" style="text-decoration:underline; color:var(--ink);">Create an account</a>
+  </p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/products-data.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script>
+async function doLogin(){
+  const email = document.getElementById("lEmail").value.trim();
+  const password = document.getElementById("lPassword").value;
+  const msgEl = document.getElementById("loginMsg");
+
+  if(!email || !password){
+    msgEl.className = "form-msg error";
+    msgEl.textContent = "Please enter your email and password.";
+    return;
+  }
+
+  msgEl.className = "form-msg";
+  msgEl.style.display = "block";
+  msgEl.textContent = "Logging in...";
+
+  const { data, error } = await porta_signIn({ email, password });
+  if(error){
+    if(error.message.toLowerCase().includes("email not confirmed")){
+      msgEl.className = "form-msg error";
+      msgEl.innerHTML = `Your email isn't confirmed yet. <a href="#" id="resendLink" style="text-decoration:underline;">Resend confirmation email</a>`;
+      document.getElementById("resendLink").addEventListener("click", async (e) => {
+        e.preventDefault();
+        await supabaseClient.auth.resend({ type: "signup", email });
+        msgEl.textContent = "Confirmation email sent — check your inbox.";
+      });
+    } else {
+      msgEl.className = "form-msg error";
+      msgEl.textContent = error.message;
+    }
+    return;
+  }
+
+  const session = await porta_getSession();
+  const params = new URLSearchParams(window.location.search);
+  const redirect = params.get("redirect");
+  window.location.href = redirect || (session.profile?.role === "seller" ? "seller-dashboard.html" : "index.html");
+}
+</script>
+</body>
+</html>

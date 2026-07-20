@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Bags in Karachi | Totes, Backpacks, Crossbody – Bags Hub Gulshan-e-Iqbal</title>
+  <meta name="description"
+    content="Browse totes, backpacks, crossbody, laptop bags & organizers in Karachi. Cash on Delivery, based in Gulshan-e-Iqbal, Karachi, Pakistan.">
+  <meta name="keywords"
+    content="bag shop Karachi, buy bags Gulshan-e-Iqbal, backpacks Karachi, totes Karachi, crossbody bags Karachi Pakistan">
+  <link rel="canonical" href="https://www.bagshub.pk/shop.html">
+  <meta name="geo.region" content="PK-SD">
+  <meta name="geo.placename" content="Gulshan-e-Iqbal, Karachi">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bags Hub">
+  <meta property="og:title" content="Shop Bags in Karachi | Bags Hub — Gulshan-e-Iqbal">
+  <meta property="og:description" content="Totes, backpacks, crossbody & laptop bags in Karachi. Cash on Delivery.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div class="announce">Free delivery in Karachi on orders above Rs. 3,000 · <a href="shop.html">Build a Kit &amp; Save
+      15%</a></div>
+
+  <header class="site">
+    <div class="header-inner">
+      <button class="burger" onclick="toggleMobileMenu(true)">☰</button>
+      <a href="index.html" class="logo">BAGS HUB</a>
+      <nav class="main-nav">
+        <ul>
+          <li class="nav-item"><a href="shop.html?filter=best-sellers">Best Sellers</a></li>
+          <li class="nav-item">
+            <a href="shop.html">Bags <span class="caret">▾</span></a>
+            <div class="mega">
+              <div class="mega-col">
+                <h4>Bag Type</h4>
+                <ul>
+                  <li><a href="shop.html?cat=totes">Totes</a></li>
+                  <li><a href="shop.html?cat=backpacks">Backpacks</a></li>
+                  <li><a href="shop.html?cat=crossbody">Crossbody</a></li>
+                  <li><a href="shop.html?cat=laptop-bags">Laptop Bags</a></li>
+                  <li><a href="shop.html?cat=organizers">Organizers</a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h4>Collections</h4>
+                <ul>
+                  <li><a href="shop.html?filter=work">Office &amp; Work</a></li>
+                  <li><a href="shop.html?filter=travel">Travel</a></li>
+                  <li><a href="shop.html?filter=school">School</a></li>
+                  <li><a href="shop.html?filter=everyday">Everyday Carry</a></li>
+                  <li><a href="shop.html?filter=new">New Arrivals</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item"><a href="shop.html?filter=new">New Arrivals</a></li>
+          <li class="nav-item"><a href="index.html#kit">Build a Kit</a></li>
+          <li class="nav-item"><a href="about.html">Our Story</a></li>
+        </ul>
+      </nav>
+      <div class="header-icons">
+        <button class="icon-btn" onclick="toggleSearchBox(true)">🔍</button>
+        <button class="icon-btn">♡</button>
+        <button class="icon-btn" onclick="toggleCart(true)">🛍<span class="cart-count" id="cartCount">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-close" onclick="toggleMobileMenu(false)">✕</div>
+    <h4>Shop</h4>
+    <ul>
+      <li><a href="shop.html?filter=best-sellers">Best Sellers</a></li>
+      <li><a href="shop.html?filter=new">New Arrivals</a></li>
+      <li><a href="shop.html">Shop All</a></li>
+    </ul>
+  </div>
+
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Home</a> / <span id="crumbLabel">Shop All</span></div>
+  </div>
+
+  <div class="page-hero wrap">
+    <h1 id="pageTitle">Shop All Bags</h1>
+  </div>
+
+  <div class="section wrap" style="padding-top:0;">
+    <div class="shop-layout">
+      <aside>
+        <div class="filter-block">
+          <h4>Bag Type</h4>
+          <div class="filter-opt" onclick="applyFilter('cat', null)">All Types</div>
+          <div class="filter-opt" onclick="applyFilter('cat', 'totes')">Totes</div>
+          <div class="filter-opt" onclick="applyFilter('cat', 'backpacks')">Backpacks</div>
+          <div class="filter-opt" onclick="applyFilter('cat', 'crossbody')">Crossbody</div>
+          <div class="filter-opt" onclick="applyFilter('cat', 'laptop-bags')">Laptop Bags</div>
+          <div class="filter-opt" onclick="applyFilter('cat', 'organizers')">Organizers</div>
+          <div class="filter-opt" onclick="applyFilter('cat', 'duffles')">Duffles</div>
+        </div>
+        <div class="filter-block">
+          <h4>Collection</h4>
+          <div class="filter-opt" onclick="applyFilter('filter', 'best-sellers')">Best Sellers</div>
+          <div class="filter-opt" onclick="applyFilter('filter', 'new')">New Arrivals</div>
+          <div class="filter-opt" onclick="applyFilter('filter', 'work')">Work</div>
+          <div class="filter-opt" onclick="applyFilter('filter', 'travel')">Travel</div>
+          <div class="filter-opt" onclick="applyFilter('filter', 'school')">School</div>
+          <div class="filter-opt" onclick="applyFilter('filter', 'everyday')">Everyday Carry</div>
+        </div>
+      </aside>
+      <div>
+        <div class="shop-toolbar">
+          <span id="resultCount" style="font-size:13px; color:var(--ink-soft);"></span>
+          <select id="sortSelect" onchange="renderShop()">
+            <option value="default">Sort: Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name-asc">Name: A–Z</option>
+          </select>
+        </div>
+        <div class="grid" id="shopGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="foot-logo">BAGS HUB</div>
+          <p style="max-width:260px; font-size:13.5px; color:rgba(239,234,224,0.65);">Everyday bags, made and sold from
+            Karachi — for people who don't sit still.</p>
+          <div class="foot-social"><a href="#">IG</a><a href="#">TikTok</a><a href="#">FB</a></div>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="shop.html?filter=best-sellers">Best Sellers</a></li>
+            <li><a href="shop.html?filter=new">New Arrivals</a></li>
+            <li><a href="shop.html">Shop All</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="contact.html">Contact / WhatsApp</a></li>
+            <li><a href="cart.html">Your Bag</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Bags Hub</h4>
+          <ul>
+            <li><a href="about.html">Our Story</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Bags Hub. All rights reserved.</div>
+        <div>Karachi, Pakistan · COD available</div>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="https://wa.me/923000000000" target="_blank">💬</a>
+
+  <div class="overlay" id="overlay" onclick="closeAllOverlays()"></div>
+  <div class="drawer" id="cartDrawer">
+    <div class="drawer-head">
+      <h3>Your Bag</h3><button onclick="toggleCart(false)" style="font-size:20px;">✕</button>
+    </div>
+    <div class="drawer-body" id="cartBody"></div>
+    <div class="drawer-foot" id="cartFoot" style="display:none;">
+      <div class="subtotal"><span>Subtotal</span><span id="cartSubtotal">Rs. 0</span></div>
+      <a class="btn btn-dark" href="cart.html" style="width:100%; justify-content:center;">Go to Checkout</a>
+    </div>
+  </div>
+
+  <div class="search-overlay" id="searchOverlay">
+    <button class="search-close" onclick="toggleSearchBox(false)">✕</button>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search bags, colors, styles..." oninput="runSearch(this.value)">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <div class="quiz-modal" id="quizModal">
+    <div class="quiz-card" id="quizCard"></div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/products-data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    function getParams() {
+      return new URLSearchParams(window.location.search);
+    }
+    function applyFilter(key, value) {
+      const params = getParams();
+      if (value === null) { params.delete(key); } else { params.set(key, value); }
+      window.location.search = params.toString();
+    }
+    function renderShop() {
+      const params = getParams();
+      const cat = params.get("cat");
+      const filter = params.get("filter");
+      let list = PRODUCTS_DB.slice();
+      let title = "Shop All Bags";
+
+      if (cat) {
+        list = list.filter(p => p.category === cat);
+        title = cat.replace("-", " ").replace(/\b\w/g, c => c.toUpperCase());
+      }
+      if (filter === "best-sellers") { list = list.filter(p => p.isBestSeller); title = "Best Sellers"; }
+      else if (filter === "new") { list = list.filter(p => p.isNew); title = "New Arrivals"; }
+      else if (filter) { list = list.filter(p => p.collections.includes(filter)); title = filter.charAt(0).toUpperCase() + filter.slice(1); }
+
+      const sort = document.getElementById("sortSelect").value;
+      if (sort === "price-asc") list.sort((a, b) => a.price - b.price);
+      if (sort === "price-desc") list.sort((a, b) => b.price - a.price);
+      if (sort === "name-asc") list.sort((a, b) => a.name.localeCompare(b.name));
+
+      document.getElementById("pageTitle").textContent = title;
+      document.getElementById("crumbLabel").textContent = title;
+      document.getElementById("resultCount").textContent = list.length + " bag" + (list.length === 1 ? "" : "s");
+      renderProductGrid("shopGrid", list);
+    }
+    if (PRODUCTS_DB.length) renderShop();
+    document.addEventListener("productsLoaded", renderShop);
+  </script>
+</body>
+
+</html>

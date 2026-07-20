@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTabTitle">Product — Bags Hub</title>
+  <meta id="metaDesc" name="description"
+    content="Shop bags in Karachi with Cash on Delivery — Bags Hub, based in Gulshan-e-Iqbal, Karachi.">
+  <link id="canonicalLink" rel="canonical" href="https://www.bagshub.pk/product.html">
+  <meta name="geo.region" content="PK-SD">
+  <meta name="geo.placename" content="Gulshan-e-Iqbal, Karachi">
+  <meta id="ogTitle" property="og:title" content="Bags Hub — Bags in Karachi">
+  <meta id="ogDesc" property="og:description"
+    content="Shop bags in Karachi with Cash on Delivery — Gulshan-e-Iqbal, Karachi.">
+  <meta property="og:type" content="product">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <!-- Product schema is injected dynamically once the bag loads, see script at bottom -->
+
+  <div class="announce">Free delivery in Karachi on orders above Rs. 3,000 · <a href="shop.html">Build a Kit &amp; Save
+      15%</a></div>
+
+  <header class="site">
+    <div class="header-inner">
+      <button class="burger" onclick="toggleMobileMenu(true)">☰</button>
+      <a href="index.html" class="logo">BAGS HUB</a>
+      <nav class="main-nav">
+        <ul>
+          <li class="nav-item"><a href="shop.html?filter=best-sellers">Best Sellers</a></li>
+          <li class="nav-item"><a href="shop.html">Bags</a></li>
+          <li class="nav-item"><a href="shop.html?filter=new">New Arrivals</a></li>
+          <li class="nav-item"><a href="index.html#kit">Build a Kit</a></li>
+          <li class="nav-item"><a href="about.html">Our Story</a></li>
+        </ul>
+      </nav>
+      <div class="header-icons">
+        <button class="icon-btn" onclick="toggleSearchBox(true)">🔍</button>
+        <button class="icon-btn">♡</button>
+        <button class="icon-btn" onclick="toggleCart(true)">🛍<span class="cart-count" id="cartCount">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-close" onclick="toggleMobileMenu(false)">✕</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop All</a></li>
+      <li><a href="cart.html">Your Bag</a></li>
+    </ul>
+  </div>
+
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Home</a> / <a href="shop.html">Shop</a> / <span
+        id="crumbName">Product</span></div>
+  </div>
+
+  <div class="wrap">
+    <div class="pdp" id="pdpRoot">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <div class="section wrap" style="padding-top:0;">
+    <div class="section-head">
+      <h2>You Might Also Like</h2>
+    </div>
+    <div class="grid" id="relatedGrid"></div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="foot-logo">BAGS HUB</div>
+          <p style="max-width:260px; font-size:13.5px; color:rgba(239,234,224,0.65);">Everyday bags, made and sold from
+            Karachi.</p>
+          <div class="foot-social"><a href="#">IG</a><a href="#">TikTok</a><a href="#">FB</a></div>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="shop.html?filter=best-sellers">Best Sellers</a></li>
+            <li><a href="shop.html?filter=new">New Arrivals</a></li>
+            <li><a href="shop.html">Shop All</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="contact.html">Contact / WhatsApp</a></li>
+            <li><a href="cart.html">Your Bag</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Bags Hub</h4>
+          <ul>
+            <li><a href="about.html">Our Story</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Bags Hub. All rights reserved.</div>
+        <div>Karachi, Pakistan · COD available</div>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="https://wa.me/923000000000" target="_blank">💬</a>
+
+  <div class="overlay" id="overlay" onclick="closeAllOverlays()"></div>
+  <div class="drawer" id="cartDrawer">
+    <div class="drawer-head">
+      <h3>Your Bag</h3><button onclick="toggleCart(false)" style="font-size:20px;">✕</button>
+    </div>
+    <div class="drawer-body" id="cartBody"></div>
+    <div class="drawer-foot" id="cartFoot" style="display:none;">
+      <div class="subtotal"><span>Subtotal</span><span id="cartSubtotal">Rs. 0</span></div>
+      <a class="btn btn-dark" href="cart.html" style="width:100%; justify-content:center;">Go to Checkout</a>
+    </div>
+  </div>
+
+  <div class="search-overlay" id="searchOverlay">
+    <button class="search-close" onclick="toggleSearchBox(false)">✕</button>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search bags..." oninput="runSearch(this.value)">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <div class="quiz-modal" id="quizModal">
+    <div class="quiz-card" id="quizCard"></div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/products-data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+    let product = null;
+    let selectedColor = null;
+    let selectedQty = 1;
+
+    function renderPDP() {
+      const root = document.getElementById("pdpRoot");
+      if (!product) {
+        root.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><h3>Bag not found</h3><p>It may have been removed. <a href="shop.html">Browse all bags</a>.</p></div>`;
+        return;
+      }
+      selectedColor = product.colors[0]?.name || null;
+      document.title = product.name + " in Karachi — Buy Online | Bags Hub Gulshan-e-Iqbal";
+      document.getElementById("pageTabTitle").textContent = product.name + " in Karachi — Bags Hub";
+      document.getElementById("crumbName").textContent = product.name;
+
+      const seoDesc = `Buy ${product.name} in Karachi — ${product.description.slice(0, 120)} Cash on Delivery, sold from Gulshan-e-Iqbal, Karachi.`;
+      document.getElementById("metaDesc").setAttribute("content", seoDesc);
+      document.getElementById("ogTitle").setAttribute("content", product.name + " — Buy in Karachi | Bags Hub");
+      document.getElementById("ogDesc").setAttribute("content", seoDesc);
+      document.getElementById("canonicalLink").setAttribute("href", "https://www.bagshub.pk/product.html?id=" + product.id);
+
+      const schemaTag = document.createElement("script");
+      schemaTag.type = "application/ld+json";
+      schemaTag.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": product.name,
+        "description": product.description,
+        "category": product.category,
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "PKR",
+          "price": product.price,
+          "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+          "areaServed": "Karachi",
+          "seller": { "@type": "Organization", "name": product.seller_name }
+        }
+      });
+      document.head.appendChild(schemaTag);
+
+      const thumbs = product.views.map((v, i) => `
+    <div class="th ${i === 0 ? 'active' : ''}" data-idx="${i}" onclick="setMainImage(${i})">
+      ${v.img ? `<img src="${v.img}" style="width:100%;height:100%;object-fit:cover;">` : v.emoji}
+    </div>`).join("");
+
+      const colorOpts = product.colors.map((c, i) => `
+    <span style="background:${c.hex}" class="${i === 0 ? 'active' : ''}" title="${c.name}" onclick="selectColor('${c.name}', this)"></span>`).join("");
+
+      const specs = product.specs.map(s => `<li>${s}</li>`).join("");
+
+      root.innerHTML = `
+    <div class="pdp-gallery">
+      <div class="pdp-gallery-main" id="mainImage">${product.views[0].img ? `<img src="${product.views[0].img}" style="width:100%;height:100%;object-fit:cover;">` : product.views[0].emoji}</div>
+      <div class="pdp-thumbs">${thumbs}</div>
+    </div>
+    <div class="pdp-info">
+      <div class="name">${product.name}</div>
+      <div class="price">${fmtPKR(product.price)}</div>
+      <p class="desc">${product.description}</p>
+
+      ${product.colors.length ? `
+      <div class="opt-block">
+        <h4>Color — <span id="colorLabel">${product.colors[0].name}</span></h4>
+        <div class="color-opts">${colorOpts}</div>
+      </div>` : ""}
+
+      <div class="opt-block">
+        <h4>Quantity</h4>
+        <div class="qty-selector">
+          <button onclick="changePdpQty(-1)">−</button>
+          <span id="pdpQty">1</span>
+          <button onclick="changePdpQty(1)">+</button>
+        </div>
+      </div>
+
+      <div class="pdp-actions">
+        <a class="btn btn-dark" href="#" onclick="addPdpToCart();return false;" style="flex:1; justify-content:center;">Add to Bag</a>
+        <a class="btn btn-outline" href="cart.html" style="flex:1; justify-content:center;">View Bag</a>
+      </div>
+
+      <ul class="pdp-meta-list">${specs}<li>${product.stock > 0 ? product.stock + ' in stock' : 'Currently out of stock'}</li><li>Sold by <strong>${product.seller_name}</strong></li></ul>
+    </div>
+  `;
+    }
+
+    function setMainImage(idx) {
+      const v = product.views[idx];
+      document.getElementById("mainImage").innerHTML = v.img ? `<img src="${v.img}" style="width:100%;height:100%;object-fit:cover;">` : v.emoji;
+      document.querySelectorAll(".pdp-thumbs .th").forEach((t, i) => t.classList.toggle("active", i === idx));
+    }
+    function selectColor(name, el) {
+      selectedColor = name;
+      document.getElementById("colorLabel").textContent = name;
+      document.querySelectorAll(".color-opts span").forEach(s => s.classList.remove("active"));
+      el.classList.add("active");
+    }
+    function changePdpQty(delta) {
+      selectedQty = Math.max(1, selectedQty + delta);
+      document.getElementById("pdpQty").textContent = selectedQty;
+    }
+    function addPdpToCart() {
+      addToCart(product.id, selectedQty, selectedColor);
+      toggleCart(true);
+    }
+
+    async function init() {
+      product = await fetchProductById(productId);
+      renderPDP();
+      if (product) {
+        if (!PRODUCTS_DB.length) { await loadProducts(); }
+        const related = PRODUCTS_DB.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+        renderProductGrid("relatedGrid", related.length ? related : PRODUCTS_DB.filter(p => p.id !== product.id).slice(0, 4));
+      } else {
+        document.getElementById("relatedGrid").parentElement.style.display = "none";
+      }
+    }
+    init();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Your Bag — Bags Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="header-inner">
+    <button class="burger" onclick="toggleMobileMenu(true)">☰</button>
+    <a href="index.html" class="logo">BAGS HUB</a>
+    <nav class="main-nav">
+      <ul>
+        <li class="nav-item"><a href="shop.html?filter=best-sellers">Best Sellers</a></li>
+        <li class="nav-item"><a href="shop.html">Bags</a></li>
+        <li class="nav-item"><a href="shop.html?filter=new">New Arrivals</a></li>
+        <li class="nav-item"><a href="about.html">Our Story</a></li>
+      </ul>
+    </nav>
+    <div class="header-icons">
+      <button class="icon-btn" onclick="toggleSearchBox(true)">🔍</button>
+      <button class="icon-btn" onclick="toggleCart(true)">🛍<span class="cart-count" id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-close" onclick="toggleMobileMenu(false)">✕</div>
+  <ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop All</a></li></ul>
+</div>
+
+<div class="wrap"><div class="breadcrumb"><a href="index.html">Home</a> / Your Bag</div></div>
+<div class="page-hero wrap"><h1>Your Bag</h1></div>
+
+<div class="cart-page wrap">
+  <div class="cart-page-layout">
+    <div id="cartLines"><!-- filled by JS --></div>
+
+    <div class="summary-box">
+      <h3 style="margin-bottom:18px;">Order Summary</h3>
+      <div class="summary-row"><span>Subtotal</span><span id="sumSubtotal">Rs. 0</span></div>
+      <div class="summary-row"><span>Delivery</span><span id="sumDelivery">Rs. 0</span></div>
+      <div class="summary-row total"><span>Total</span><span id="sumTotal">Rs. 0</span></div>
+
+      <div id="checkoutFormWrap" style="margin-top:24px;">
+        <h4 style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px;">Delivery Details</h4>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="custName" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Phone (WhatsApp)</label>
+          <input type="tel" id="custPhone" placeholder="03xx-xxxxxxx">
+        </div>
+        <div class="form-group">
+          <label>Address</label>
+          <textarea id="custAddress" rows="2" placeholder="House / street / area"></textarea>
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" id="custCity" value="Karachi">
+        </div>
+        <button class="btn btn-dark" style="width:100%; justify-content:center;" onclick="placeOrder()">Place Order (COD)</button>
+        <div class="form-msg" id="orderMsg"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div><div class="foot-logo">BAGS HUB</div><p style="max-width:260px; font-size:13.5px; color:rgba(239,234,224,0.65);">Everyday bags, made and sold from Karachi.</p></div>
+      <div><h4>Shop</h4><ul><li><a href="shop.html">Shop All</a></li></ul></div>
+      <div><h4>Support</h4><ul><li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Bags Hub</h4><ul><li><a href="about.html">Our Story</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 Bags Hub.</div><div>Karachi, Pakistan · COD available</div></div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/923000000000" target="_blank">💬</a>
+
+<div class="overlay" id="overlay" onclick="closeAllOverlays()"></div>
+<div class="drawer" id="cartDrawer">
+  <div class="drawer-head"><h3>Your Bag</h3><button onclick="toggleCart(false)" style="font-size:20px;">✕</button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot" id="cartFoot" style="display:none;">
+    <div class="subtotal"><span>Subtotal</span><span id="cartSubtotal">Rs. 0</span></div>
+    <a class="btn btn-dark" href="cart.html" style="width:100%; justify-content:center;">Go to Checkout</a>
+  </div>
+</div>
+<div class="search-overlay" id="searchOverlay">
+  <button class="search-close" onclick="toggleSearchBox(false)">✕</button>
+  <div class="search-box"><input type="text" id="searchInput" placeholder="Search bags..." oninput="runSearch(this.value)"><div class="search-results" id="searchResults"></div></div>
+</div>
+<div class="quiz-modal" id="quizModal"><div class="quiz-card" id="quizCard"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/products-data.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script>
+function renderCartPage(){
+  const wrap = document.getElementById("cartLines");
+  const items = getCartWithDetails();
+
+  if(items.length === 0){
+    wrap.innerHTML = `<div class="empty-state"><h3>Your bag is empty</h3><p>Add a few bags you actually like.</p><a class="btn btn-dark" href="shop.html" style="margin-top:16px;">Shop All Bags</a></div>`;
+    document.getElementById("checkoutFormWrap").style.display = "none";
+    updateSummary(0);
+    return;
+  }
+
+  document.getElementById("checkoutFormWrap").style.display = "block";
+  wrap.innerHTML = items.map(c => `
+    <div class="cart-page-line">
+      <div class="thumb">${c.product.views[0].img ? `<img src="${c.product.views[0].img}" style="width:100%;height:100%;object-fit:cover;">` : (c.product.views[0].emoji || "👜")}</div>
+      <div>
+        <div class="nm">${c.product.name}</div>
+        <div class="op">${c.color} · ${fmtPKR(c.product.price)} each</div>
+        <div class="qty-row">
+          <button onclick="updateCartQty('${c.id}','${c.color}',-1)">−</button>
+          <span>${c.qty}</span>
+          <button onclick="updateCartQty('${c.id}','${c.color}',1)">+</button>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-weight:700;">${fmtPKR(c.product.price * c.qty)}</div>
+        <div style="font-size:12px; color:var(--rust); cursor:pointer; margin-top:8px;" onclick="removeFromCart('${c.id}','${c.color}')">Remove</div>
+      </div>
+    </div>`).join("");
+
+  updateSummary(getCartTotal());
+}
+
+function updateSummary(subtotal){
+  const delivery = subtotal > 0 ? DELIVERY_FEE : 0;
+  document.getElementById("sumSubtotal").textContent = fmtPKR(subtotal);
+  document.getElementById("sumDelivery").textContent = fmtPKR(delivery);
+  document.getElementById("sumTotal").textContent = fmtPKR(subtotal + delivery);
+}
+
+async function placeOrder(){
+  const msgEl = document.getElementById("orderMsg");
+  const session = await porta_getSession();
+  if(!session){
+    window.location.href = "login.html?redirect=" + encodeURIComponent("cart.html");
+    return;
+  }
+
+  const name = document.getElementById("custName").value.trim();
+  const phone = document.getElementById("custPhone").value.trim();
+  const address = document.getElementById("custAddress").value.trim();
+  const city = document.getElementById("custCity").value.trim();
+  const items = getCartWithDetails();
+
+  if(items.length === 0){
+    msgEl.className = "form-msg error";
+    msgEl.textContent = "Your bag is empty.";
+    return;
+  }
+  if(!name || !phone || !address){
+    msgEl.className = "form-msg error";
+    msgEl.textContent = "Please fill in your name, phone, and address.";
+    return;
+  }
+
+  const subtotal = getCartTotal();
+  const total = subtotal + DELIVERY_FEE;
+
+  msgEl.className = "form-msg";
+  msgEl.style.display = "block";
+  msgEl.textContent = "Placing your order...";
+
+  try{
+    // 1. Create the order
+    const { data: orderRow, error: orderErr } = await supabaseClient
+      .from("orders")
+      .insert({
+        buyer_id: session.user.id,
+        customer_name: name,
+        phone,
+        address,
+        city,
+        subtotal,
+        delivery_fee: DELIVERY_FEE,
+        total
+      })
+      .select()
+      .single();
+    if(orderErr) throw orderErr;
+
+    // 2. Create one order_item per cart line, tagged with that bag's seller_id
+    const itemRows = items.map(c => ({
+      order_id: orderRow.id,
+      product_id: c.product.id,
+      product_name: c.product.name,
+      seller_id: c.product.seller_id,
+      color: c.color,
+      qty: c.qty,
+      price: c.product.price
+    }));
+    const { error: itemsErr } = await supabaseClient.from("order_items").insert(itemRows);
+    if(itemsErr) throw itemsErr;
+
+    // 3. Decrement stock for each bag purchased
+    for(const c of items){
+      await supabaseClient
+        .from("products")
+        .update({ stock: Math.max(0, c.product.stock - c.qty) })
+        .eq("id", c.product.id);
+    }
+
+    msgEl.className = "form-msg success";
+    msgEl.textContent = "Order placed! Reference #" + orderRow.id.slice(0,8) + ". We'll confirm on WhatsApp shortly.";
+    saveCart([]);
+    renderCartPage();
+  }catch(err){
+    msgEl.className = "form-msg error";
+    msgEl.textContent = "Couldn't place your order: " + (err.message || "please try again.");
+  }
+}
+
+async function prefillFromProfile(){
+  const session = await porta_getSession();
+  if(session && session.profile){
+    document.getElementById("custName").value = session.profile.name || "";
+    document.getElementById("custPhone").value = session.profile.phone || "";
+    document.getElementById("custCity").value = session.profile.city || "Karachi";
+  }
+}
+
+if(PRODUCTS_DB.length) renderCartPage();
+document.addEventListener("productsLoaded", renderCartPage);
+prefillFromProfile();
+</script>
+</body>
+</html>

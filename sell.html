@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sell Bags Online in Karachi | Become a Seller — Bags Hub Gulshan-e-Iqbal</title>
+<meta name="description" content="List and sell your bags online in Karachi for free. Join Bags Hub, based in Gulshan-e-Iqbal, Karachi — no commission, manage your own orders.">
+<meta name="keywords" content="sell bags online Karachi, become a seller Karachi, bag business Gulshan-e-Iqbal, sell handbags Pakistan">
+<link rel="canonical" href="https://www.bagshub.pk/sell.html">
+<meta name="geo.region" content="PK-SD">
+<meta name="geo.placename" content="Gulshan-e-Iqbal, Karachi">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="header-inner">
+    <a href="index.html" class="logo">BAGS HUB</a>
+    <nav class="main-nav"><ul></ul></nav>
+    <div class="header-icons"></div>
+  </div>
+</header>
+
+<section class="hero" style="min-height:50vh;">
+  <div class="hero-content">
+    <p class="eyebrow">Sell on Bags Hub</p>
+    <h1 style="font-size:clamp(32px,5vw,56px);">List your bags.<br>Reach buyers across Karachi.</h1>
+    <p>Open a free seller account, list as many bags as you like, and manage your own orders — no monthly fee, no middleman.</p>
+    <div class="hero-actions">
+      <a class="btn btn-dark" href="register.html" id="ctaBtn">Start Selling — It's Free</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap" style="padding:60px 0 90px;">
+  <div class="value-grid">
+    <div class="value-card">
+      <div class="icon">🛍️</div>
+      <h3 style="font-size:17px; margin-bottom:8px;">List in minutes</h3>
+      <p style="color:var(--ink-soft); font-size:14px;">Add a bag with a name, price, colors, and description. It's live instantly.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">📦</div>
+      <h3 style="font-size:17px; margin-bottom:8px;">Manage your own orders</h3>
+      <p style="color:var(--ink-soft); font-size:14px;">See only your own orders in your dashboard, and update status as you ship.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">💰</div>
+      <h3 style="font-size:17px; margin-bottom:8px;">No commission surprises</h3>
+      <p style="color:var(--ink-soft); font-size:14px;">You set your own prices. Buyers pay COD directly.</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/products-data.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script>
+(async () => {
+  const session = await porta_getSession();
+  if(session && session.profile?.role === "seller"){
+    window.location.href = "seller-dashboard.html";
+  } else if(session && session.profile?.role === "buyer"){
+    document.getElementById("ctaBtn").textContent = "Create a Seller Account";
+  }
+})();
+</script>
+</body>
+</html>

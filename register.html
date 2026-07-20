@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Create Account — Bags Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="header-inner">
+    <a href="index.html" class="logo">BAGS HUB</a>
+    <nav class="main-nav"><ul></ul></nav>
+    <div class="header-icons"></div>
+  </div>
+</header>
+
+<div class="wrap"><div class="breadcrumb"><a href="index.html">Home</a> / Create Account</div></div>
+
+<div class="wrap" style="max-width:520px; padding-top:20px; padding-bottom:90px;">
+  <div class="page-hero" style="padding:16px 0 26px;">
+    <h1 style="font-size:32px;">Create Your Account</h1>
+    <p style="color:var(--ink-soft); margin-top:10px;">Buy bags, or open your own shop and start listing.</p>
+  </div>
+
+  <div class="filter-block" style="display:flex; gap:10px; margin-bottom:26px; border:none; padding:0;">
+    <button class="btn" id="roleBuyerBtn" style="flex:1; justify-content:center; background:var(--ink); color:var(--canvas);" onclick="setRole('buyer')">I want to Buy</button>
+    <button class="btn btn-outline" id="roleSellerBtn" style="flex:1; justify-content:center;" onclick="setRole('seller')">I want to Sell</button>
+  </div>
+
+  <div class="form-group"><label>Full Name</label><input type="text" id="rName" placeholder="Your name"></div>
+  <div class="form-group"><label>Email</label><input type="email" id="rEmail" placeholder="you@example.com"></div>
+  <div class="form-group"><label>Phone (WhatsApp)</label><input type="tel" id="rPhone" placeholder="03xx-xxxxxxx"></div>
+  <div class="form-group" id="shopNameGroup" style="display:none;">
+    <label>Shop / Brand Name</label>
+    <input type="text" id="rShopName" placeholder="e.g. Aliya's Bag Corner">
+  </div>
+  <div class="form-group"><label>Password</label><input type="password" id="rPassword" placeholder="At least 6 characters"></div>
+
+  <button class="btn btn-dark" style="width:100%; justify-content:center;" onclick="doRegister()">Create Account</button>
+  <div class="form-msg" id="regMsg"></div>
+
+  <p style="text-align:center; margin-top:22px; font-size:13.5px; color:var(--ink-soft);">
+    Already have an account? <a href="login.html" style="text-decoration:underline; color:var(--ink);">Log in</a>
+  </p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/products-data.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script src="js/auth.js"></script>
+<script>
+let selectedRole = "buyer";
+function setRole(role){
+  selectedRole = role;
+  document.getElementById("roleBuyerBtn").className = role === "buyer" ? "btn" : "btn btn-outline";
+  document.getElementById("roleSellerBtn").className = role === "seller" ? "btn" : "btn btn-outline";
+  document.getElementById("roleBuyerBtn").style.cssText = role === "buyer" ? "flex:1; justify-content:center; background:var(--ink); color:var(--canvas);" : "flex:1; justify-content:center;";
+  document.getElementById("roleSellerBtn").style.cssText = role === "seller" ? "flex:1; justify-content:center; background:var(--ink); color:var(--canvas);" : "flex:1; justify-content:center;";
+  document.getElementById("shopNameGroup").style.display = role === "seller" ? "block" : "none";
+}
+
+async function doRegister(){
+  const name = document.getElementById("rName").value.trim();
+  const email = document.getElementById("rEmail").value.trim();
+  const phone = document.getElementById("rPhone").value.trim();
+  const shop_name = document.getElementById("rShopName").value.trim();
+  const password = document.getElementById("rPassword").value;
+  const msgEl = document.getElementById("regMsg");
+
+  if(!name || !email || !password){
+    msgEl.className = "form-msg error";
+    msgEl.textContent = "Please fill in your name, email, and password.";
+    return;
+  }
+  if(selectedRole === "seller" && !shop_name){
+    msgEl.className = "form-msg error";
+    msgEl.textContent = "Please give your shop a name.";
+    return;
+  }
+
+  msgEl.className = "form-msg";
+  msgEl.style.display = "block";
+  msgEl.textContent = "Creating your account...";
+
+  const { data, error } = await porta_signUp({ name, email, phone, password, role: selectedRole, shop_name });
+
+  if(error){
+    msgEl.className = "form-msg error";
+    msgEl.textContent = error.message;
+    return;
+  }
+
+  msgEl.className = "form-msg success";
+  msgEl.textContent = "Account created! Redirecting...";
+  setTimeout(() => {
+    const params = new URLSearchParams(window.location.search);
+    window.location.href = params.get("redirect") || (selectedRole === "seller" ? "seller-dashboard.html" : "index.html");
+  }, 1200);
+}
+</script>
+</body>
+</html>

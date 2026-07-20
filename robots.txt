@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /cart.html
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /my-orders.html
+Disallow: /seller-dashboard.html
+
+Sitemap: https://www.bagshub.pk/sitemap.xml
