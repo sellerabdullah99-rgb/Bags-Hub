@@ -16,18 +16,29 @@ const CATEGORY_IMAGES = {
   totes: "",
   backpacks: "",
   crossbody: "",
-  "laptop-bags": ""
-};
-
-function applyCategoryImages(){
+  "laptop-bags": "",
+  "school-bags": "",          // Class 1 to 9 tak ke school bags
+  "travel-bags": "",          // Travel bags
+  "college-bags": "",         // Fancy college bags (China Imported)
+  "laptop-bags-single-zip": "",
+  "laptop-bags-double-zip": "",
+}
+  ;
+const Brands = {
+  swissgear: "",
+  Zeesh: "",
+  other: "",
+}
+  ;
+function applyCategoryImages() {
   document.querySelectorAll(".cat-tile[data-cat]").forEach(tile => {
     const cat = tile.dataset.cat;
     const url = CATEGORY_IMAGES[cat];
-    if(url){
+    if (url) {
       const bg = tile.querySelector(".bg");
-      if(bg) bg.style.backgroundImage = `url('${url}')`;
-      if(bg) bg.style.backgroundSize = "cover";
-      if(bg) bg.style.backgroundPosition = "center";
+      if (bg) bg.style.backgroundImage = `url('${url}')`;
+      if (bg) bg.style.backgroundSize = "cover";
+      if (bg) bg.style.backgroundPosition = "center";
     }
   });
 }

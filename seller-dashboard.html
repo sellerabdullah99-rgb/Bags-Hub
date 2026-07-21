@@ -1,351 +1,824 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<title>Seller Dashboard — Bags Hub</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<style>
-  .dash-tabs{display:flex; gap:10px; margin-bottom:30px; border-bottom:1px solid var(--line);}
-  .dash-tab{padding:12px 4px; font-size:13px; text-transform:uppercase; letter-spacing:0.05em; font-weight:700; cursor:pointer; color:var(--ink-soft); border-bottom:2px solid transparent; margin-right:20px;}
-  .dash-tab.active{color:var(--ink); border-color:var(--ink);}
-  .dash-panel{display:none;}
-  .dash-panel.active{display:block;}
-  .listing-row{display:grid; grid-template-columns:60px 1.6fr 1fr 1fr 1fr auto; gap:14px; align-items:center; padding:14px 0; border-bottom:1px solid var(--line); font-size:13.5px;}
-  .listing-row .thumb{width:50px; height:50px; background:var(--cream-card); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:22px; border-radius:2px;}
-  .mini-btn{font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; font-weight:700; padding:6px 10px; border:1px solid var(--line); border-radius:2px; cursor:pointer; background:none;}
-  .mini-btn:hover{border-color:var(--ink);}
-  .order-card{border:1px solid var(--line); border-radius:2px; padding:18px; margin-bottom:14px; background:var(--cream-card);}
-  .checkbox-row{display:flex; flex-wrap:wrap; gap:14px; font-size:13px;}
-  .checkbox-row label{display:flex; align-items:center; gap:6px;}
-  .photo-slot{aspect-ratio:1/1; border:1.5px dashed var(--line); border-radius:2px; background:var(--cream-card); display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; position:relative; text-align:center;}
-  .photo-slot:hover{border-color:var(--ink);}
-  .photo-slot img{width:100%; height:100%; object-fit:cover;}
-  .photo-slot-label{font-size:11px; color:var(--ink-soft); padding:8px;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Dashboard — Bags Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background: var(--canvas);
+    }
+
+    .dash-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 26px 24px 100px;
+    }
+
+    .dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .dash-header h1 {
+      font-size: 26px;
+    }
+
+    .dash-header .shop-tag {
+      font-size: 12.5px;
+      color: var(--ink-soft);
+    }
+
+    .dash-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    @media (max-width:800px) {
+      .dash-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dash-sidebar {
+      background: var(--cream-card);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 14px;
+      position: sticky;
+      top: 90px;
+    }
+
+    .dash-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+      font-weight: 600;
+      border-radius: 2px;
+      cursor: pointer;
+      color: var(--ink-soft);
+      margin-bottom: 2px;
+    }
+
+    .dash-nav-item .ic {
+      font-size: 16px;
+    }
+
+    .dash-nav-item:hover {
+      background: var(--canvas);
+    }
+
+    .dash-nav-item.active {
+      background: var(--ink);
+      color: var(--canvas);
+    }
+
+    .dash-panel {
+      display: none;
+    }
+
+    .dash-panel.active {
+      display: block;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 34px;
+    }
+
+    @media (max-width:800px) {
+      .stat-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .stat-card {
+      background: var(--cream-card);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 20px;
+    }
+
+    .stat-card .num {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .stat-card .lbl {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-soft);
+      font-weight: 700;
+    }
+
+    .stat-card.warn .num {
+      color: var(--rust);
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .panel-head h3 {
+      font-size: 20px;
+    }
+
+    .listing-row {
+      display: grid;
+      grid-template-columns: 60px 1.6fr 1fr 1fr 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 13.5px;
+    }
+
+    @media (max-width:800px) {
+      .listing-row {
+        grid-template-columns: 50px 1fr;
+        row-gap: 6px;
+      }
+    }
+
+    .listing-row .thumb {
+      width: 50px;
+      height: 50px;
+      background: var(--cream-card);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .listing-row .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .stock-badge {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 10px;
+    }
+
+    .stock-badge.ok {
+      background: rgba(82, 92, 66, 0.15);
+      color: var(--olive);
+    }
+
+    .stock-badge.low {
+      background: rgba(201, 154, 62, 0.2);
+      color: #8a6a1f;
+    }
+
+    .stock-badge.out {
+      background: rgba(138, 75, 50, 0.15);
+      color: var(--rust);
+    }
+
+    .mini-btn {
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      cursor: pointer;
+      background: none;
+    }
+
+    .mini-btn:hover {
+      border-color: var(--ink);
+    }
+
+    .order-card {
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 18px;
+      margin-bottom: 14px;
+      background: var(--cream-card);
+    }
+
+    .checkbox-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 13px;
+    }
+
+    .checkbox-row label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .photo-slot {
+      aspect-ratio: 1/1;
+      border: 1.5px dashed var(--line);
+      border-radius: 2px;
+      background: var(--cream-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+    }
+
+    .photo-slot:hover {
+      border-color: var(--ink);
+    }
+
+    .photo-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-slot-label {
+      font-size: 11px;
+      color: var(--ink-soft);
+      padding: 8px;
+    }
+
+    .status-filter {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .status-filter button {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: none;
+      cursor: pointer;
+    }
+
+    .status-filter button.active {
+      background: var(--ink);
+      color: var(--canvas);
+      border-color: var(--ink);
+    }
+
+    .settings-card {
+      background: var(--cream-card);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 26px;
+      max-width: 520px;
+      margin-bottom: 24px;
+    }
+
+    .settings-card h4 {
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .danger-text {
+      color: var(--rust);
+      font-size: 12.5px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
+
 <body>
 
-<header class="site">
-  <div class="header-inner">
-    <a href="index.html" class="logo">BAGS HUB</a>
-    <nav class="main-nav"><ul></ul></nav>
-    <div class="header-icons"></div>
-  </div>
-</header>
+  <header class="site">
+    <div class="header-inner">
+      <a href="index.html" class="logo">BAGS HUB</a>
+      <nav class="main-nav">
+        <ul></ul>
+      </nav>
+      <div class="header-icons"></div>
+    </div>
+  </header>
 
-<div class="wrap"><div class="breadcrumb"><a href="index.html">Home</a> / Seller Dashboard</div></div>
-<div class="page-hero wrap"><h1 id="dashTitle">Seller Dashboard</h1></div>
+  <div class="dash-wrap">
 
-<div class="wrap" style="padding-bottom:100px;" id="dashRoot">
+    <div class="dash-header">
+      <div>
+        <h1 id="dashTitle">Seller Dashboard</h1>
+        <div class="shop-tag" id="dashSubtitle">Loading your shop...</div>
+      </div>
+      <a class="btn btn-outline" href="index.html">← Back to Bags Hub</a>
+    </div>
 
-  <div class="dash-tabs">
-    <div class="dash-tab active" data-tab="listings">My Listings</div>
-    <div class="dash-tab" data-tab="add">Add New Bag</div>
-    <div class="dash-tab" data-tab="orders">Orders</div>
-  </div>
+    <div class="dash-layout">
 
-  <div class="dash-panel active" id="panel-listings">
-    <div id="listingsWrap"><p style="color:var(--ink-soft);">Loading your listings...</p></div>
-  </div>
+      <div class="dash-sidebar">
+        <div class="dash-nav-item active" data-tab="overview"><span class="ic">📊</span> Overview</div>
+        <div class="dash-nav-item" data-tab="listings"><span class="ic">🛍️</span> My Listings</div>
+        <div class="dash-nav-item" data-tab="add"><span class="ic">➕</span> Add New Bag</div>
+        <div class="dash-nav-item" data-tab="orders"><span class="ic">📦</span> Orders</div>
+        <div class="dash-nav-item" data-tab="settings"><span class="ic">⚙️</span> Settings</div>
+      </div>
 
-  <div class="dash-panel" id="panel-add">
-    <h3 id="formHeading" style="margin-bottom:18px;">Add a New Bag</h3>
-    <input type="hidden" id="editingId" value="">
-    <div class="form-row2">
-      <div class="form-group"><label>Bag Name</label><input type="text" id="pName" placeholder="e.g. Allyn Tote"></div>
-      <div class="form-group">
-        <label>Category</label>
-        <select id="pCategory">
-          <option value="totes">Totes</option>
-          <option value="backpacks">Backpacks</option>
-          <option value="crossbody">Crossbody</option>
-          <option value="laptop-bags">Laptop Bags</option>
-          <option value="organizers">Organizers</option>
-          <option value="duffles">Duffles</option>
-        </select>
+      <div>
+        <!-- OVERVIEW -->
+        <div class="dash-panel active" id="panel-overview">
+          <div class="stat-grid" id="statGrid">
+            <div class="stat-card">
+              <div class="lbl">Total Listings</div>
+              <div class="num">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="lbl">Active Listings</div>
+              <div class="num">—</div>
+            </div>
+            <div class="stat-card">
+              <div class="lbl">Total Orders</div>
+              <div class="num">—</div>
+            </div>
+            <div class="stat-card warn">
+              <div class="lbl">Pending Orders</div>
+              <div class="num">—</div>
+            </div>
+          </div>
+          <div class="stat-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="stat-card">
+              <div class="lbl">Total Sales Value</div>
+              <div class="num" id="statRevenue">—</div>
+            </div>
+            <div class="stat-card warn">
+              <div class="lbl">Out of Stock</div>
+              <div class="num" id="statOutOfStock">—</div>
+            </div>
+          </div>
+          <div class="panel-head">
+            <h3>Recent Orders</h3>
+          </div>
+          <div id="recentOrdersWrap">
+            <p style="color:var(--ink-soft);">Loading...</p>
+          </div>
+        </div>
+
+        <!-- LISTINGS -->
+        <div class="dash-panel" id="panel-listings">
+          <div class="panel-head">
+            <h3>My Listings</h3>
+            <button class="btn btn-dark" onclick="document.querySelector('.dash-nav-item[data-tab=add]').click()">+ Add
+              New Bag</button>
+          </div>
+          <div id="listingsWrap">
+            <p style="color:var(--ink-soft);">Loading your listings...</p>
+          </div>
+        </div>
+
+        <!-- ADD / EDIT -->
+        <div class="dash-panel" id="panel-add">
+          <div class="panel-head">
+            <h3 id="formHeading">Add a New Bag</h3>
+          </div>
+          <input type="hidden" id="editingId" value="">
+          <div class="form-row2">
+            <div class="form-group"><label>Bag Name</label><input type="text" id="pName"
+                placeholder="e.g. Class 5 School Bag"></div>
+            <div class="form-group">
+              <label>Brand</label>
+              <input type="text" id="pBrand" list="brandList" placeholder="e.g. Swissgear, or type your own">
+              <datalist id="brandList">
+                <option value="Swissgear">
+                <option value="Local / Unbranded">
+                <option value="Imported (China)">
+              </datalist>
+            </div>
+          </div>
+          <div class="form-row2">
+            <div class="form-group">
+              <label>Category</label>
+              <select id="pCategory">
+                <option value="school-bags">School Bags (Class 1–9)</option>
+                <option value="college-bags">College Bags (Imported)</option>
+                <option value="travel-bags">Travel Bags</option>
+                <option value="laptop-bags-single-zip">Laptop Bags — Single Zip</option>
+                <option value="laptop-bags-double-zip">Laptop Bags — Double Zip</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Subtitle</label><input type="text" id="pSub"
+                placeholder="e.g. Grade 5, boys"></div>
+          </div>
+          <div class="form-row2">
+            <div class="form-group"><label>Price (Rs.)</label><input type="number" id="pPrice" placeholder="4200"></div>
+            <div class="form-group"><label>Stock</label><input type="number" id="pStock" placeholder="10"></div>
+          </div>
+          <div class="form-group">
+            <label>Photos</label>
+            <div class="form-row2" style="grid-template-columns:1fr 1fr 1fr; gap:12px;">
+              <div>
+                <div class="photo-slot" id="slot-front" onclick="document.getElementById('file-front').click()">
+                  <span class="photo-slot-label">Front (required)</span>
+                </div>
+                <input type="file" id="file-front" accept="image/*" style="display:none;"
+                  onchange="previewSlot('front', this)">
+              </div>
+              <div>
+                <div class="photo-slot" id="slot-inside" onclick="document.getElementById('file-inside').click()">
+                  <span class="photo-slot-label">Inside</span>
+                </div>
+                <input type="file" id="file-inside" accept="image/*" style="display:none;"
+                  onchange="previewSlot('inside', this)">
+              </div>
+              <div>
+                <div class="photo-slot" id="slot-angle" onclick="document.getElementById('file-angle').click()">
+                  <span class="photo-slot-label">Angle</span>
+                </div>
+                <input type="file" id="file-angle" accept="image/*" style="display:none;"
+                  onchange="previewSlot('angle', this)">
+              </div>
+            </div>
+            <p style="font-size:12px; color:var(--ink-soft); margin-top:8px;">Tap a box to upload a photo. Front photo
+              is required; Inside and Angle are optional.</p>
+          </div>
+          <div class="form-group"><label>Description</label><textarea id="pDescription" rows="3"
+              placeholder="What makes this bag good..."></textarea></div>
+          <div class="form-group"><label>Specs (one per line)</label><textarea id="pSpecs" rows="3"
+              placeholder="14&quot; laptop sleeve&#10;Water-resistant lining"></textarea></div>
+          <div class="form-group"><label>Colors — format: Name:#hex, one per line</label><textarea id="pColors" rows="2"
+              placeholder="Rust:#8A4B32&#10;Onyx:#211E1A"></textarea></div>
+          <div class="form-group">
+            <label>Collections</label>
+            <div class="checkbox-row">
+              <label><input type="checkbox" value="best-sellers" class="collCheck"> Best Seller</label>
+              <label><input type="checkbox" value="new" class="collCheck" checked> New Arrival</label>
+              <label><input type="checkbox" value="school" class="collCheck"> School</label>
+              <label><input type="checkbox" value="college" class="collCheck"> College</label>
+              <label><input type="checkbox" value="travel" class="collCheck"> Travel</label>
+              <label><input type="checkbox" value="imported" class="collCheck"> Imported</label>
+            </div>
+          </div>
+          <button class="btn btn-dark" onclick="saveProduct()" id="saveBtn">Publish Listing</button>
+          <button class="btn btn-outline" onclick="resetForm()" style="margin-left:10px;">Clear</button>
+          <div class="form-msg" id="productMsg"></div>
+        </div>
+
+        <!-- ORDERS -->
+        <div class="dash-panel" id="panel-orders">
+          <div class="panel-head">
+            <h3>Orders</h3>
+          </div>
+          <div class="status-filter" id="orderStatusFilter">
+            <button class="active" data-status="all">All</button>
+            <button data-status="pending">Pending</button>
+            <button data-status="confirmed">Confirmed</button>
+            <button data-status="shipped">Shipped</button>
+            <button data-status="delivered">Delivered</button>
+            <button data-status="cancelled">Cancelled</button>
+          </div>
+          <div id="ordersWrap">
+            <p style="color:var(--ink-soft);">Loading your orders...</p>
+          </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="dash-panel" id="panel-settings">
+          <div class="panel-head">
+            <h3>Settings</h3>
+          </div>
+
+          <div class="settings-card">
+            <h4>Shop Profile</h4>
+            <div class="form-group"><label>Your Name</label><input type="text" id="setName"></div>
+            <div class="form-group"><label>Shop Name</label><input type="text" id="setShopName"></div>
+            <div class="form-group"><label>Phone (WhatsApp)</label><input type="tel" id="setPhone"></div>
+            <div class="form-group"><label>City</label><input type="text" id="setCity"></div>
+            <button class="btn btn-dark" onclick="saveProfile()">Save Profile</button>
+            <div class="form-msg" id="profileMsg"></div>
+          </div>
+
+          <div class="settings-card">
+            <h4>Change Password</h4>
+            <p style="font-size:12.5px; color:var(--ink-soft); margin-bottom:14px;">You're already logged in, so you can
+              set a new password directly — no email link needed.</p>
+            <div class="form-group"><label>New Password</label><input type="password" id="newPassword"
+                placeholder="At least 6 characters"></div>
+            <div class="form-group"><label>Confirm New Password</label><input type="password" id="confirmPassword"
+                placeholder="Re-type new password"></div>
+            <button class="btn btn-dark" onclick="changePassword()">Update Password</button>
+            <div class="form-msg" id="passwordMsg"></div>
+          </div>
+
+          <div class="settings-card">
+            <h4>Account Email</h4>
+            <p style="font-size:13.5px;" id="setEmailDisplay">—</p>
+            <p style="font-size:12px; color:var(--ink-soft); margin-top:8px;">To change your email, contact support —
+              this keeps your account secure.</p>
+          </div>
+
+          <div class="settings-card" style="border-color:var(--rust);">
+            <h4>Sign Out</h4>
+            <button class="btn btn-outline" onclick="porta_signOut()">Sign Out of Bags Hub</button>
+          </div>
+        </div>
+
       </div>
     </div>
-    <div class="form-row2">
-      <div class="form-group"><label>Subtitle</label><input type="text" id="pSub" placeholder="e.g. Office & everyday"></div>
-      <div class="form-group"><label>Price (Rs.)</label><input type="number" id="pPrice" placeholder="4200"></div>
-    </div>
-    <div class="form-group">
-      <label>Photos</label>
-      <div class="form-row2" style="grid-template-columns:1fr 1fr 1fr; gap:12px;">
-        <div>
-          <div class="photo-slot" id="slot-front" onclick="document.getElementById('file-front').click()">
-            <span class="photo-slot-label">Front (required)</span>
-          </div>
-          <input type="file" id="file-front" accept="image/*" style="display:none;" onchange="previewSlot('front', this)">
-        </div>
-        <div>
-          <div class="photo-slot" id="slot-inside" onclick="document.getElementById('file-inside').click()">
-            <span class="photo-slot-label">Inside</span>
-          </div>
-          <input type="file" id="file-inside" accept="image/*" style="display:none;" onchange="previewSlot('inside', this)">
-        </div>
-        <div>
-          <div class="photo-slot" id="slot-angle" onclick="document.getElementById('file-angle').click()">
-            <span class="photo-slot-label">Angle</span>
-          </div>
-          <input type="file" id="file-angle" accept="image/*" style="display:none;" onchange="previewSlot('angle', this)">
-        </div>
-      </div>
-      <p style="font-size:12px; color:var(--ink-soft); margin-top:8px;">Tap a box to upload a photo. Front photo is required; Inside and Angle are optional.</p>
-    </div>
-    <div class="form-group"><label>Stock</label><input type="number" id="pStock" placeholder="10"></div>
-    <div class="form-group"><label>Description</label><textarea id="pDescription" rows="3" placeholder="What makes this bag good..."></textarea></div>
-    <div class="form-group"><label>Specs (one per line)</label><textarea id="pSpecs" rows="3" placeholder="14&quot; laptop sleeve&#10;Water-resistant lining"></textarea></div>
-    <div class="form-group"><label>Colors — format: Name:#hex, one per line</label><textarea id="pColors" rows="2" placeholder="Rust:#8A4B32&#10;Onyx:#211E1A"></textarea></div>
-    <div class="form-group">
-      <label>Collections</label>
-      <div class="checkbox-row">
-        <label><input type="checkbox" value="best-sellers" class="collCheck"> Best Seller</label>
-        <label><input type="checkbox" value="new" class="collCheck" checked> New Arrival</label>
-        <label><input type="checkbox" value="work" class="collCheck"> Work</label>
-        <label><input type="checkbox" value="travel" class="collCheck"> Travel</label>
-        <label><input type="checkbox" value="school" class="collCheck"> School</label>
-        <label><input type="checkbox" value="everyday" class="collCheck"> Everyday Carry</label>
-      </div>
-    </div>
-    <button class="btn btn-dark" onclick="saveProduct()" id="saveBtn">Publish Listing</button>
-    <button class="btn btn-outline" onclick="resetForm()" style="margin-left:10px;">Clear</button>
-    <div class="form-msg" id="productMsg"></div>
   </div>
 
-  <div class="dash-panel" id="panel-orders">
-    <div id="ordersWrap"><p style="color:var(--ink-soft);">Loading your orders...</p></div>
-  </div>
+  <div class="toast" id="toast"></div>
 
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/products-data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    let sellerSession = null;
+    let allMyOrderItems = [];
+    let currentOrderFilter = "all";
 
-<div class="toast" id="toast"></div>
+    /* ---------- Sidebar nav ---------- */
+    document.querySelectorAll(".dash-nav-item").forEach(item => {
+      item.addEventListener("click", () => {
+        document.querySelectorAll(".dash-nav-item").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".dash-panel").forEach(p => p.classList.remove("active"));
+        item.classList.add("active");
+        document.getElementById("panel-" + item.dataset.tab).classList.add("active");
+        if (item.dataset.tab === "overview") loadOverview();
+        if (item.dataset.tab === "settings") loadSettings();
+      });
+    });
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js"></script>
-<script src="js/products-data.js"></script>
-<script src="js/cart.js"></script>
-<script src="js/main.js"></script>
-<script src="js/auth.js"></script>
-<script>
-let sellerSession = null;
-let slotFiles = { front: null, inside: null, angle: null };
-let slotExistingUrls = { front: "", inside: "", angle: "" };
+    function fmt(n) { return "Rs. " + n.toLocaleString(); }
 
-function previewSlot(slot, input){
-  const file = input.files[0];
-  if(!file) return;
-  slotFiles[slot] = file;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    document.getElementById("slot-" + slot).innerHTML = `<img src="${e.target.result}">`;
-  };
-  reader.readAsDataURL(file);
-}
+    /* ---------- Overview ---------- */
+    async function loadOverview() {
+      const [{ data: products }, { data: items }] = await Promise.all([
+        supabaseClient.from("products").select("id, stock, is_active").eq("seller_id", sellerSession.user.id),
+        supabaseClient.from("order_items").select("*, orders(customer_name, phone, city, created_at)").eq("seller_id", sellerSession.user.id).order("created_at", { ascending: false })
+      ]);
 
-function resetPhotoSlots(){
-  slotFiles = { front: null, inside: null, angle: null };
-  slotExistingUrls = { front: "", inside: "", angle: "" };
-  ["front","inside","angle"].forEach(s => {
-    document.getElementById("slot-" + s).innerHTML = `<span class="photo-slot-label">${s === "front" ? "Front (required)" : s.charAt(0).toUpperCase()+s.slice(1)}</span>`;
-    document.getElementById("file-" + s).value = "";
-  });
-}
+      const p = products || [];
+      const items_ = items || [];
+      allMyOrderItems = items_;
 
-async function uploadPhoto(file, label){
-  const ext = file.name.split(".").pop();
-  const path = `${sellerSession.user.id}/${Date.now()}-${label}.${ext}`;
-  const { error } = await supabaseClient.storage.from(STORAGE_BUCKET).upload(path, file, { upsert: true });
-  if(error) throw error;
-  const { data } = supabaseClient.storage.from(STORAGE_BUCKET).getPublicUrl(path);
-  return data.publicUrl;
-}
+      const totalListings = p.length;
+      const activeListings = p.filter(x => x.is_active).length;
+      const outOfStock = p.filter(x => x.stock === 0).length;
+      const totalOrders = items_.length;
+      const pendingOrders = items_.filter(x => x.status === "pending").length;
+      const revenue = items_.filter(x => x.status !== "cancelled").reduce((sum, x) => sum + x.price * x.qty, 0);
 
-document.querySelectorAll(".dash-tab").forEach(tab => {
-  tab.addEventListener("click", () => {
-    document.querySelectorAll(".dash-tab").forEach(t => t.classList.remove("active"));
-    document.querySelectorAll(".dash-panel").forEach(p => p.classList.remove("active"));
-    tab.classList.add("active");
-    document.getElementById("panel-" + tab.dataset.tab).classList.add("active");
-  });
-});
+      const cards = document.querySelectorAll("#statGrid .stat-card .num");
+      cards[0].textContent = totalListings;
+      cards[1].textContent = activeListings;
+      cards[2].textContent = totalOrders;
+      cards[3].textContent = pendingOrders;
+      document.getElementById("statRevenue").textContent = fmt(revenue);
+      document.getElementById("statOutOfStock").textContent = outOfStock;
 
-function fmt(n){ return "Rs. " + n.toLocaleString(); }
+      const recentWrap = document.getElementById("recentOrdersWrap");
+      const recent = items_.slice(0, 5);
+      if (!recent.length) {
+        recentWrap.innerHTML = `<p style="color:var(--ink-soft);">No orders yet.</p>`;
+      } else {
+        recentWrap.innerHTML = recent.map(renderOrderCard).join("");
+      }
+    }
 
-async function loadMyListings(){
-  const { data, error } = await supabaseClient
-    .from("products")
-    .select("*")
-    .eq("seller_id", sellerSession.user.id)
-    .order("created_at", { ascending: false });
+    /* ---------- Listings ---------- */
+    async function loadMyListings() {
+      const { data, error } = await supabaseClient
+        .from("products")
+        .select("*")
+        .eq("seller_id", sellerSession.user.id)
+        .order("created_at", { ascending: false });
 
-  const wrap = document.getElementById("listingsWrap");
-  if(error){ wrap.innerHTML = `<p class="form-msg error" style="display:block;">${error.message}</p>`; return; }
-  if(!data.length){ wrap.innerHTML = `<p style="color:var(--ink-soft);">You haven't listed any bags yet. Go to "Add New Bag" to publish your first listing.</p>`; return; }
+      const wrap = document.getElementById("listingsWrap");
+      if (error) { wrap.innerHTML = `<p class="form-msg error" style="display:block;">${error.message}</p>`; return; }
+      if (!data.length) { wrap.innerHTML = `<p style="color:var(--ink-soft);">You haven't listed any bags yet. Go to "Add New Bag" to publish your first listing.</p>`; return; }
 
-  wrap.innerHTML = data.map(p => `
+      wrap.innerHTML = data.map(p => {
+        const stockClass = p.stock === 0 ? "out" : (p.stock <= 5 ? "low" : "ok");
+        const stockLabel = p.stock === 0 ? "Out of stock" : (p.stock <= 5 ? "Low stock" : "In stock");
+        return `
     <div class="listing-row">
-      <div class="thumb">${(p.images && p.images[0] && p.images[0].img) ? `<img src="${p.images[0].img}" style="width:100%;height:100%;object-fit:cover;">` : "👜"}</div>
-      <div><strong>${p.name}</strong><div style="color:var(--ink-soft); font-size:12px;">${p.category}</div></div>
+      <div class="thumb">${(p.images && p.images[0] && p.images[0].img) ? `<img src="${p.images[0].img}">` : "👜"}</div>
+      <div><strong>${p.name}</strong><div style="color:var(--ink-soft); font-size:12px;">${p.brand ? p.brand + " · " : ""}${p.category}</div></div>
       <div>${fmt(p.price)}</div>
-      <div>${p.stock} in stock</div>
+      <div>${p.stock} <span class="stock-badge ${stockClass}">${stockLabel}</span></div>
       <div>${p.is_active ? "Active" : "Hidden"}</div>
-      <div style="display:flex; gap:8px;">
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
         <button class="mini-btn" onclick='editProduct(${JSON.stringify(JSON.stringify(p))})'>Edit</button>
         <button class="mini-btn" onclick="toggleActive('${p.id}', ${p.is_active})">${p.is_active ? "Hide" : "Unhide"}</button>
         <button class="mini-btn" style="color:var(--rust); border-color:var(--rust);" onclick="deleteProduct('${p.id}')">Delete</button>
       </div>
-    </div>`).join("");
-}
-
-function editProduct(jsonStr){
-  const p = JSON.parse(jsonStr);
-  document.querySelector('.dash-tab[data-tab="add"]').click();
-  document.getElementById("formHeading").textContent = "Edit Bag";
-  document.getElementById("saveBtn").textContent = "Save Changes";
-  document.getElementById("editingId").value = p.id;
-  document.getElementById("pName").value = p.name;
-  document.getElementById("pCategory").value = p.category;
-  document.getElementById("pSub").value = p.sub || "";
-  document.getElementById("pPrice").value = p.price;
-  document.getElementById("pStock").value = p.stock;
-  document.getElementById("pDescription").value = p.description || "";
-  document.getElementById("pSpecs").value = (p.specs || []).join("\n");
-  document.getElementById("pColors").value = (p.colors || []).map(c => `${c.name}:${c.hex}`).join("\n");
-  document.querySelectorAll(".collCheck").forEach(cb => cb.checked = (p.collections || []).includes(cb.value));
-
-  resetPhotoSlots();
-  const slotOrder = ["front","inside","angle"];
-  (p.images || []).forEach((img, i) => {
-    if(i > 2 || !img.img) return;
-    const slot = slotOrder[i];
-    slotExistingUrls[slot] = img.img;
-    document.getElementById("slot-" + slot).innerHTML = `<img src="${img.img}">`;
-  });
-}
-
-function resetForm(){
-  document.getElementById("formHeading").textContent = "Add a New Bag";
-  document.getElementById("saveBtn").textContent = "Publish Listing";
-  document.getElementById("editingId").value = "";
-  ["pName","pSub","pPrice","pStock","pDescription","pSpecs","pColors"].forEach(id => document.getElementById(id).value = "");
-  resetPhotoSlots();
-  document.querySelectorAll(".collCheck").forEach(cb => cb.checked = cb.value === "new");
-  document.getElementById("productMsg").style.display = "none";
-}
-
-async function saveProduct(){
-  const msgEl = document.getElementById("productMsg");
-  const name = document.getElementById("pName").value.trim();
-  const price = parseInt(document.getElementById("pPrice").value, 10);
-  const stock = parseInt(document.getElementById("pStock").value, 10) || 0;
-
-  if(!name || !price){
-    msgEl.className = "form-msg error";
-    msgEl.textContent = "Please fill in at least the name and price.";
-    return;
-  }
-  if(!slotFiles.front && !slotExistingUrls.front){
-    msgEl.className = "form-msg error";
-    msgEl.textContent = "Please add at least a Front photo.";
-    return;
-  }
-
-  msgEl.className = "form-msg";
-  msgEl.style.display = "block";
-  msgEl.textContent = "Uploading photos...";
-
-  let images;
-  try{
-    const slotOrder = ["front","inside","angle"];
-    const labels = { front: "Front", inside: "Inside", angle: "Angle" };
-    images = [];
-    for(const slot of slotOrder){
-      if(slotFiles[slot]){
-        const url = await uploadPhoto(slotFiles[slot], slot);
-        images.push({ img: url, emoji: "", label: labels[slot] });
-      } else if(slotExistingUrls[slot]){
-        images.push({ img: slotExistingUrls[slot], emoji: "", label: labels[slot] });
-      }
+    </div>`;
+      }).join("");
     }
-  }catch(err){
-    msgEl.className = "form-msg error";
-    msgEl.textContent = "Photo upload failed: " + err.message;
-    return;
-  }
 
-  msgEl.textContent = "Saving listing...";
+    function editProduct(jsonStr) {
+      const p = JSON.parse(jsonStr);
+      document.querySelector('.dash-nav-item[data-tab="add"]').click();
+      document.getElementById("formHeading").textContent = "Edit Bag";
+      document.getElementById("saveBtn").textContent = "Save Changes";
+      document.getElementById("editingId").value = p.id;
+      document.getElementById("pName").value = p.name;
+      document.getElementById("pBrand").value = p.brand || "";
+      document.getElementById("pCategory").value = p.category;
+      document.getElementById("pSub").value = p.sub || "";
+      document.getElementById("pPrice").value = p.price;
+      document.getElementById("pStock").value = p.stock;
+      document.getElementById("pDescription").value = p.description || "";
+      document.getElementById("pSpecs").value = (p.specs || []).join("\n");
+      document.getElementById("pColors").value = (p.colors || []).map(c => `${c.name}:${c.hex}`).join("\n");
+      document.querySelectorAll(".collCheck").forEach(cb => cb.checked = (p.collections || []).includes(cb.value));
 
-  const specs = document.getElementById("pSpecs").value.split("\n").map(s => s.trim()).filter(Boolean);
-  const colors = document.getElementById("pColors").value.split("\n").map(l => l.trim()).filter(Boolean).map(l => {
-    const [cname, hex] = l.split(":").map(s => s.trim());
-    return { name: cname, hex: hex || "#211E1A" };
-  });
-  const collections = Array.from(document.querySelectorAll(".collCheck:checked")).map(cb => cb.value);
+      resetPhotoSlots();
+      const slotOrder = ["front", "inside", "angle"];
+      (p.images || []).forEach((img, i) => {
+        if (i > 2 || !img.img) return;
+        const slot = slotOrder[i];
+        slotExistingUrls[slot] = img.img;
+        document.getElementById("slot-" + slot).innerHTML = `<img src="${img.img}">`;
+      });
+    }
 
-  const payload = {
-    seller_id: sellerSession.user.id,
-    name,
-    category: document.getElementById("pCategory").value,
-    sub: document.getElementById("pSub").value.trim(),
-    price,
-    stock,
-    description: document.getElementById("pDescription").value.trim(),
-    specs,
-    colors: colors.length ? colors : [{ name: "Default", hex: "#211E1A" }],
-    images,
-    collections,
-    is_active: true
-  };
+    function resetForm() {
+      document.getElementById("formHeading").textContent = "Add a New Bag";
+      document.getElementById("saveBtn").textContent = "Publish Listing";
+      document.getElementById("editingId").value = "";
+      ["pName", "pBrand", "pSub", "pPrice", "pStock", "pDescription", "pSpecs", "pColors"].forEach(id => document.getElementById(id).value = "");
+      resetPhotoSlots();
+      document.querySelectorAll(".collCheck").forEach(cb => cb.checked = cb.value === "new");
+      document.getElementById("productMsg").style.display = "none";
+    }
 
-  const editingId = document.getElementById("editingId").value;
-  let error;
-  if(editingId){
-    ({ error } = await supabaseClient.from("products").update(payload).eq("id", editingId));
-  } else {
-    ({ error } = await supabaseClient.from("products").insert(payload));
-  }
+    /* ---------- Photos ---------- */
+    let slotFiles = { front: null, inside: null, angle: null };
+    let slotExistingUrls = { front: "", inside: "", angle: "" };
 
-  if(error){
-    msgEl.className = "form-msg error";
-    msgEl.textContent = error.message;
-    return;
-  }
+    function previewSlot(slot, input) {
+      const file = input.files[0];
+      if (!file) return;
+      slotFiles[slot] = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById("slot-" + slot).innerHTML = `<img src="${e.target.result}">`;
+      };
+      reader.readAsDataURL(file);
+    }
 
-  msgEl.className = "form-msg success";
-  msgEl.textContent = editingId ? "Listing updated!" : "Listing published!";
-  resetForm();
-  loadMyListings();
-  document.querySelector('.dash-tab[data-tab="listings"]').click();
-}
+    function resetPhotoSlots() {
+      slotFiles = { front: null, inside: null, angle: null };
+      slotExistingUrls = { front: "", inside: "", angle: "" };
+      ["front", "inside", "angle"].forEach(s => {
+        document.getElementById("slot-" + s).innerHTML = `<span class="photo-slot-label">${s === "front" ? "Front (required)" : s.charAt(0).toUpperCase() + s.slice(1)}</span>`;
+        document.getElementById("file-" + s).value = "";
+      });
+    }
 
-async function toggleActive(id, currentlyActive){
-  await supabaseClient.from("products").update({ is_active: !currentlyActive }).eq("id", id);
-  loadMyListings();
-}
+    async function uploadPhoto(file, label) {
+      const ext = file.name.split(".").pop();
+      const path = `${sellerSession.user.id}/${Date.now()}-${label}.${ext}`;
+      const { error } = await supabaseClient.storage.from(STORAGE_BUCKET).upload(path, file, { upsert: true });
+      if (error) throw error;
+      const { data } = supabaseClient.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+      return data.publicUrl;
+    }
 
-async function deleteProduct(id){
-  if(!confirm("Delete this listing? This can't be undone.")) return;
-  await supabaseClient.from("products").delete().eq("id", id);
-  loadMyListings();
-}
+    /* ---------- Save product ---------- */
+    async function saveProduct() {
+      const msgEl = document.getElementById("productMsg");
+      const name = document.getElementById("pName").value.trim();
+      const price = parseInt(document.getElementById("pPrice").value, 10);
+      const stock = parseInt(document.getElementById("pStock").value, 10) || 0;
 
-async function loadMyOrders(){
-  const { data, error } = await supabaseClient
-    .from("order_items")
-    .select("*, orders(customer_name, phone, address, city, created_at)")
-    .eq("seller_id", sellerSession.user.id)
-    .order("created_at", { ascending: false });
+      if (!name || !price) {
+        msgEl.className = "form-msg error";
+        msgEl.textContent = "Please fill in at least the name and price.";
+        return;
+      }
+      if (!slotFiles.front && !slotExistingUrls.front) {
+        msgEl.className = "form-msg error";
+        msgEl.textContent = "Please add at least a Front photo.";
+        return;
+      }
 
-  const wrap = document.getElementById("ordersWrap");
-  if(error){ wrap.innerHTML = `<p class="form-msg error" style="display:block;">${error.message}</p>`; return; }
-  if(!data.length){ wrap.innerHTML = `<p style="color:var(--ink-soft);">No orders yet for your bags.</p>`; return; }
+      msgEl.className = "form-msg";
+      msgEl.style.display = "block";
+      msgEl.textContent = "Uploading photos...";
 
-  wrap.innerHTML = data.map(item => `
+      let images;
+      try {
+        const slotOrder = ["front", "inside", "angle"];
+        const labels = { front: "Front", inside: "Inside", angle: "Angle" };
+        images = [];
+        for (const slot of slotOrder) {
+          if (slotFiles[slot]) {
+            const url = await uploadPhoto(slotFiles[slot], slot);
+            images.push({ img: url, emoji: "", label: labels[slot] });
+          } else if (slotExistingUrls[slot]) {
+            images.push({ img: slotExistingUrls[slot], emoji: "", label: labels[slot] });
+          }
+        }
+      } catch (err) {
+        msgEl.className = "form-msg error";
+        msgEl.textContent = "Photo upload failed: " + err.message;
+        return;
+      }
+
+      msgEl.textContent = "Saving listing...";
+
+      const specs = document.getElementById("pSpecs").value.split("\n").map(s => s.trim()).filter(Boolean);
+      const colors = document.getElementById("pColors").value.split("\n").map(l => l.trim()).filter(Boolean).map(l => {
+        const [cname, hex] = l.split(":").map(s => s.trim());
+        return { name: cname, hex: hex || "#211E1A" };
+      });
+      const collections = Array.from(document.querySelectorAll(".collCheck:checked")).map(cb => cb.value);
+
+      const payload = {
+        seller_id: sellerSession.user.id,
+        name,
+        brand: document.getElementById("pBrand").value.trim(),
+        category: document.getElementById("pCategory").value,
+        sub: document.getElementById("pSub").value.trim(),
+        price,
+        stock,
+        description: document.getElementById("pDescription").value.trim(),
+        specs,
+        colors: colors.length ? colors : [{ name: "Default", hex: "#211E1A" }],
+        images,
+        collections,
+        is_active: true
+      };
+
+      const editingId = document.getElementById("editingId").value;
+      let error;
+      if (editingId) {
+        ({ error } = await supabaseClient.from("products").update(payload).eq("id", editingId));
+      } else {
+        ({ error } = await supabaseClient.from("products").insert(payload));
+      }
+
+      if (error) {
+        msgEl.className = "form-msg error";
+        msgEl.textContent = error.message + (error.message.includes("brand") ? " — run the brand column migration in Supabase (see chat)." : "");
+        return;
+      }
+
+      msgEl.className = "form-msg success";
+      msgEl.textContent = editingId ? "Listing updated!" : "Listing published!";
+      resetForm();
+      loadMyListings();
+      document.querySelector('.dash-nav-item[data-tab="listings"]').click();
+    }
+
+    async function toggleActive(id, currentlyActive) {
+      await supabaseClient.from("products").update({ is_active: !currentlyActive }).eq("id", id);
+      loadMyListings();
+    }
+
+    async function deleteProduct(id) {
+      if (!confirm("Delete this listing? This can't be undone.")) return;
+      await supabaseClient.from("products").delete().eq("id", id);
+      loadMyListings();
+    }
+
+    /* ---------- Orders ---------- */
+    function renderOrderCard(item) {
+      return `
     <div class="order-card">
       <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
         <div>
@@ -353,27 +826,123 @@ async function loadMyOrders(){
           <div style="font-size:12.5px; color:var(--ink-soft); margin-top:4px;">${fmt(item.price * item.qty)}</div>
         </div>
         <select onchange="updateItemStatus('${item.id}', this.value)" style="border:1px solid var(--line); padding:8px 10px; font-size:12.5px; background:var(--canvas);">
-          ${["pending","confirmed","shipped","delivered","cancelled"].map(s => `<option value="${s}" ${item.status===s?"selected":""}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join("")}
+          ${["pending", "confirmed", "shipped", "delivered", "cancelled"].map(s => `<option value="${s}" ${item.status === s ? "selected" : ""}>${s.charAt(0).toUpperCase() + s.slice(1)}</option>`).join("")}
         </select>
       </div>
       <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft);">
         ${item.orders?.customer_name || "—"} · ${item.orders?.phone || "—"}<br>
-        ${item.orders?.address || ""}, ${item.orders?.city || ""}
+        ${item.orders?.city || ""} · ${item.orders?.created_at ? new Date(item.orders.created_at).toLocaleDateString() : ""}
       </div>
-    </div>`).join("");
-}
+    </div>`;
+    }
 
-async function updateItemStatus(itemId, status){
-  await supabaseClient.from("order_items").update({ status }).eq("id", itemId);
-}
+    async function loadMyOrders() {
+      const { data, error } = await supabaseClient
+        .from("order_items")
+        .select("*, orders(customer_name, phone, address, city, created_at)")
+        .eq("seller_id", sellerSession.user.id)
+        .order("created_at", { ascending: false });
 
-(async () => {
-  sellerSession = await porta_requireAuth("seller");
-  if(!sellerSession) return;
-  document.getElementById("dashTitle").textContent = "Welcome, " + (sellerSession.profile.shop_name || sellerSession.profile.name);
-  loadMyListings();
-  loadMyOrders();
-})();
-</script>
+      const wrap = document.getElementById("ordersWrap");
+      if (error) { wrap.innerHTML = `<p class="form-msg error" style="display:block;">${error.message}</p>`; return; }
+      allMyOrderItems = data || [];
+      renderOrdersFiltered();
+    }
+
+    function renderOrdersFiltered() {
+      const wrap = document.getElementById("ordersWrap");
+      const filtered = currentOrderFilter === "all" ? allMyOrderItems : allMyOrderItems.filter(i => i.status === currentOrderFilter);
+      if (!filtered.length) { wrap.innerHTML = `<p style="color:var(--ink-soft);">No orders in this filter.</p>`; return; }
+      wrap.innerHTML = filtered.map(renderOrderCard).join("");
+    }
+
+    document.querySelectorAll("#orderStatusFilter button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#orderStatusFilter button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentOrderFilter = btn.dataset.status;
+        renderOrdersFiltered();
+      });
+    });
+
+    async function updateItemStatus(itemId, status) {
+      await supabaseClient.from("order_items").update({ status }).eq("id", itemId);
+      const item = allMyOrderItems.find(i => i.id === itemId);
+      if (item) item.status = status;
+    }
+
+    /* ---------- Settings ---------- */
+    async function loadSettings() {
+      document.getElementById("setName").value = sellerSession.profile.name || "";
+      document.getElementById("setShopName").value = sellerSession.profile.shop_name || "";
+      document.getElementById("setPhone").value = sellerSession.profile.phone || "";
+      document.getElementById("setCity").value = sellerSession.profile.city || "";
+      document.getElementById("setEmailDisplay").textContent = sellerSession.user.email;
+    }
+
+    async function saveProfile() {
+      const msgEl = document.getElementById("profileMsg");
+      const payload = {
+        name: document.getElementById("setName").value.trim(),
+        shop_name: document.getElementById("setShopName").value.trim(),
+        phone: document.getElementById("setPhone").value.trim(),
+        city: document.getElementById("setCity").value.trim()
+      };
+      const { error } = await supabaseClient.from("profiles").update(payload).eq("id", sellerSession.user.id);
+      if (error) {
+        msgEl.className = "form-msg error";
+        msgEl.textContent = error.message;
+        return;
+      }
+      sellerSession.profile = { ...sellerSession.profile, ...payload };
+      document.getElementById("dashTitle").textContent = "Welcome, " + (payload.shop_name || payload.name);
+      msgEl.className = "form-msg success";
+      msgEl.textContent = "Profile updated!";
+    }
+
+    async function changePassword() {
+      const msgEl = document.getElementById("passwordMsg");
+      const pw = document.getElementById("newPassword").value;
+      const pw2 = document.getElementById("confirmPassword").value;
+
+      if (!pw || pw.length < 6) {
+        msgEl.className = "form-msg error";
+        msgEl.textContent = "Password must be at least 6 characters.";
+        return;
+      }
+      if (pw !== pw2) {
+        msgEl.className = "form-msg error";
+        msgEl.textContent = "Passwords don't match.";
+        return;
+      }
+
+      msgEl.className = "form-msg";
+      msgEl.style.display = "block";
+      msgEl.textContent = "Updating password...";
+
+      const { error } = await supabaseClient.auth.updateUser({ password: pw });
+      if (error) {
+        msgEl.className = "form-msg error";
+        msgEl.textContent = error.message;
+        return;
+      }
+      msgEl.className = "form-msg success";
+      msgEl.textContent = "Password updated successfully!";
+      document.getElementById("newPassword").value = "";
+      document.getElementById("confirmPassword").value = "";
+    }
+
+    /* ---------- Init ---------- */
+    (async () => {
+      sellerSession = await porta_requireAuth("seller");
+      if (!sellerSession) return;
+      document.getElementById("dashTitle").textContent = "Welcome, " + (sellerSession.profile.shop_name || sellerSession.profile.name);
+      document.getElementById("dashSubtitle").textContent = sellerSession.user.email;
+      loadOverview();
+      loadMyListings();
+      loadMyOrders();
+    })();
+  </script>
 </body>
+
 </html>
