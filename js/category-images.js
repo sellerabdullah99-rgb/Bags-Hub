@@ -13,7 +13,6 @@
    ========================================================================== */
 
 const CATEGORY_IMAGES = {
-  totes: "",
   backpacks: "",
   crossbody: "",
   "laptop-bags": "",
