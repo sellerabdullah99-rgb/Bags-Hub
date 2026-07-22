@@ -15,12 +15,13 @@
 const CATEGORY_IMAGES = {
   backpacks: "",
   crossbody: "",
-  "laptop-bags": "",
-  "school-bags": "",          // Class 1 to 9 tak ke school bags
+  "laptop-bags": "https://wwgxiblqqtzibeszwgrz.supabase.co/storage/v1/object/public/Iages/dean-pugh-eNIAipH_Bcs-unsplash.jpg",
+  "school-bags": "https://wwgxiblqqtzibeszwgrz.supabase.co/storage/v1/object/public/Iages/hello%20.jpeg",          // Class 1 to 9 tak ke school bags
   "travel-bags": "",          // Travel bags
   "college-bags": "",         // Fancy college bags (China Imported)
   "laptop-bags-single-zip": "",
   "laptop-bags-double-zip": "",
+  "Imported(:China)": "https://wwgxiblqqtzibeszwgrz.supabase.co/storage/v1/object/public/Iages/shunsuke-ono-wKd76ZD3Drc-unsplash.jpg",
 }
   ;
 const Brands = {
